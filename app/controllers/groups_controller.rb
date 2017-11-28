@@ -1,11 +1,14 @@
 class GroupsController < ApplicationController
+  before_action :authenticate_user!, only: [:new, :edit, :update, :create, :destroy]
   before_action :find_group, only: [:show, :edit, :update, :destroy]
+  before_action :check_permission, only: [:edit, :update, :destroy]
 
   def index
     @groups = Group.all
   end
 
   def show
+    @posts = @group.posts.recent.paginate(:page => params[:page], :per_page => 5)
   end
 
   def new
@@ -17,6 +20,7 @@ class GroupsController < ApplicationController
 
   def create
     @group = Group.new(group_params)
+    @group.user = current_user
     if @group.save
       redirect_to groups_path
     else
@@ -42,6 +46,13 @@ class GroupsController < ApplicationController
 
   def find_group
     @group = Group.find(params[:id])
+  end
+
+  def check_permission
+    if current_user != @group.user
+      redirect_to root_path
+      flash[:alert] = "权限不足"
+    end
   end
 
   def group_params

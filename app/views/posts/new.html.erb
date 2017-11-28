@@ -1,0 +1,6 @@
+<h2>新建文章</h2>
+
+<%= simple_form_for [@group, @post] do |f| %>
+  <%= f.input :content %>
+  <%= f.submit "保存", data:{disable_with:"正在保存.."} %>
+<% end %>

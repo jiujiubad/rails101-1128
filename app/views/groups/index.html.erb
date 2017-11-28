@@ -1,8 +1,12 @@
+<h2>所有群组</h2>
+<%= link_to("创办群组", new_group_path, class:"btn btn-success btn-lg") %>
+
 <table class="table table-bordered">
   <thead>
     <tr>
       <th>群组</th>
       <th>群描述</th>
+      <th>群组</th>
       <th>操作</th>
     </tr>
   </thead>
@@ -11,9 +15,12 @@
       <tr>
         <th><%= link_to(group.title, group_path(group)) %></th>
         <th><%= group.description %></th>
+        <th><%= group.user.email %></th>
         <th>
-          <%= link_to("编辑", edit_group_path(group)) %>
-          <%= link_to("删除", group_path(group), method: :delete, data:{confirm:"确认删除？"}) %>
+          <% if current_user && current_user == group.user %>
+            <%= link_to("编辑", edit_group_path(group)) %>
+            <%= link_to("删除", group_path(group), method: :delete, data:{confirm:"确认删除？"}) %>
+          <% end %>
         </th>
       </tr>
     <% end %>
