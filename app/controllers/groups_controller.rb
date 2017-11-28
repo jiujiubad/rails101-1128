@@ -1,6 +1,6 @@
 class GroupsController < ApplicationController
   before_action :authenticate_user!, only: [:new, :edit, :update, :create, :destroy]
-  before_action :find_group, only: [:show, :edit, :update, :destroy]
+  before_action :find_group, only: [:show, :edit, :update, :destroy, :join, :quit]
   before_action :check_permission, only: [:edit, :update, :destroy]
 
   def index
@@ -22,6 +22,7 @@ class GroupsController < ApplicationController
     @group = Group.new(group_params)
     @group.user = current_user
     if @group.save
+      current_user.join!(@group)
       redirect_to groups_path
     else
       render :new
@@ -40,6 +41,20 @@ class GroupsController < ApplicationController
   def destroy
     @group.destroy
     redirect_to groups_path
+  end
+
+  def join
+    if !current_user.is_member_of?(@group)
+      current_user.join!(@group)
+    end
+    redirect_to :back
+  end
+
+  def quit
+    if current_user.is_member_of?(@group)
+      current_user.quit!(@group)
+    end
+    redirect_to :back
   end
 
   private

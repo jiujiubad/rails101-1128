@@ -1,6 +1,15 @@
 <h2><%= @group.title %></h2>
 <h4><%= @group.description %></h4>
 <%= link_to("发表文章", new_group_post_path(@group), class:"btn btn-success btn-sm") %>
+<% if current_user && current_user.is_member_of?(@group) %>
+  群组成员
+  <%= link_to("退出群", quit_group_path(@group), method: :post, class:"btn btn-success btn-sm") %>
+<% else %>
+  不是群组成员
+  <%= link_to("加入群", join_group_path(@group), method: :post, class:"btn btn-success btn-sm") %>
+<% end %>
+
+
 
 <table class="table">
   <thead>
