@@ -1,0 +1,23 @@
+<table class="table table-bordered">
+  <thead>
+    <tr>
+      <th>文章</th>
+      <th>发表人</th>
+      <th>发表时间</th>
+      <th>操作</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @posts.each do |post| %>
+      <tr>
+        <td><%= post.content %></td>
+        <td><%= post.user.email %></td>
+        <td><%= post.created_at %></td>
+        <td>
+          <%= link_to("编辑", edit_account_post_path(post), class:"btn btn-info btn-sm") %>
+          <%= link_to("删除", account_post_path(post), method: :delete, class:"btn btn-danger btn-sm", data:{confirm:"确定删除？"}) %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
