@@ -1,0 +1,21 @@
+<table class="table table-bordered">
+  <thead>
+    <tr>
+      <th>群组</th>
+      <th>群描述</th>
+      <th>操作</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @groups.each do |group| %>
+      <tr>
+        <th><%= link_to(group.title, group_path(group)) %></th>
+        <th><%= group.description %></th>
+        <th>
+          <%= link_to("编辑", edit_group_path(group)) %>
+          <%= link_to("删除", group_path(group), method: :delete, data:{confirm:"确认删除？"}) %>
+        </th>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
