@@ -1,0 +1,7 @@
+<% @groups.each do |group| %>
+  <tr>
+    <th><%= link_to(group.title, group_path(group)) %></th>
+    <th><%= render_group_simple_format(group) %></th>
+    <th><%= group.user.email %></th>
+  </tr>
+<% end %>
